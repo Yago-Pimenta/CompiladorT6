@@ -1,0 +1,16 @@
+RECEITA=1
+INGREDIENTES=2
+MODO_PREPARO=3
+TEMPO_KW=4
+NUMBER=5
+UNIT=6
+TEMPO=7
+DOT=8
+WORD=9
+WS=10
+NL=11
+'Receita:'=1
+'Ingredientes:'=2
+'Modo de Preparo:'=3
+'Tempo:'=4
+'.'=8

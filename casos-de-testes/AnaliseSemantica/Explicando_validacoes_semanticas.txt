@@ -1,0 +1,36 @@
+ 1. Quantidade inválida de ingrediente
+Regra: A quantidade de um ingrediente deve ser maior que zero.
+
+Exemplo inválido:
+
+Copy
+Edit
+0 kg farinha
+Motivo: 0 kg não faz sentido em uma receita.
+
+2. Ingrediente sem descrição
+Regra: Todo ingrediente deve ter pelo menos uma palavra descritiva (ex: "açúcar", "farinha de trigo").
+
+Exemplo inválido:
+
+2 unid
+Motivo: Não se sabe o que são as 2 unidades.
+
+
+ 3. Passo inesperado (sem número ou fora de lugar)
+Regra: Um passo de preparo deve estar numerado corretamente (ex: 1. Misture...) e vir após a seção "Modo de Preparo".
+
+Exemplo inválido:
+
+Misture tudo
+Motivo: Está sem numeração ou colocado fora da ordem esperada.
+
+ 4. Tempo inválido
+Regra: O tempo declarado no passo de preparo (ex: Tempo: 30min) deve estar no formato correto.
+
+Exemplo inválido:
+
+Tempo: trinta minutos
+Motivo: O compilador espera algo como 5min, 1h, 20s etc.
+
+

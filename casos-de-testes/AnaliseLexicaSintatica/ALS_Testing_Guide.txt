@@ -1,0 +1,111 @@
+Guia de Testes de Análise Léxica e Sintática (ALS)
+
+Este documento descreve passo a passo como funcionam as fases de Análise Léxica e Sintática do compilador CookLang, como refinamos mensagens de erro e como organizamos testes automatizados para validar essas fases.
+
+1. Estrutura do Projeto
+
+CookLang/
+├── src/
+│   ├── main/
+│   │   ├── antlr4/CookLang.g4      # Gramática ANTLR
+│   │   └── java/...                # Código Java (Lexer, Parser, Listeners, Visitor)
+├── tests/
+│   └── AnaliseLexicaSintatica/    # Casos de teste `.rec`
+├── out/                            # HTMLs gerados para testes válidos
+├── err/                            # Logs gerados para testes com erro
+├── style.css                      # Folha de estilos para HTML
+├── run_tests.sh                   # Script de execução em lote
+└── README.md                       # Documentação geral
+
+2. Gramática CookLang.g4
+
+grammar CookLang;
+
+@header { package br.ufscar.dc.compiladores.cooklang; }
+
+// Parser rules (sem WS em regras)
+receita : RECEITA title NL
+          INGREDIENTES NL
+          ingrediente+
+          MODO_PREPARO NL
+          passo+
+          NL* EOF ;
+
+title      : WORD+ ;
+ingrediente: NUMBER UNIT WORD+ NL ;
+passo      : NUMBER DOT WORD+ TEMPO_KW TEMPO NL ;
+
+// Tokens léxicos
+RECEITA      : 'Receita:' ;
+INGREDIENTES : 'Ingredientes:' ;
+MODO_PREPARO : 'Modo de Preparo:' ;
+TEMPO_KW     : 'Tempo:' ;
+
+NUMBER    : [0-9]+ ;
+UNIT      : 'g' | 'kg' | 'ml' | 'l' | 'unid' | 'xic' | 'colher' | 'colheres' ;
+TEMPO     : [0-9]+ ('min' | 'h') ;
+DOT       : '.' ;
+WORD      : [A-Za-zçéúáãõêíóô-]+ ;
+WS        : [ \t]+ -> skip ;
+NL        : '\r'? '\n' ;
+
+3. Listener Customizado: SyntaxErrorListener.java
+
+- Herda de BaseErrorListener.
+- Recebe todas as linhas de entrada no construtor.
+- Em syntaxError():
+  1. Detecta se é erro léxico (mensagem contendo "token recognition error") ou sintático.
+  2. Captura a linha, monta um ponteiro ^ na coluna do erro.
+  3. Armazena mensagens refinadas.
+
+4. Classe Principal: Principal.java
+
+Fluxo:
+1. Ler o .rec e armazenar sourceLines.
+2. Configurar Lexer e Parser com SyntaxErrorListener.
+3. Parse inicial.
+4. Verificar erros léxicos/sintáticos: gerar HTML de erro ou prosseguir.
+5. Análise semântica.
+6. Gerar HTML de receita válida.
+
+5. Script de Testes run_tests.sh
+
+#!/usr/bin/env bash
+tests_dir="tests/AnaliseLexicaSintatica"
+out_dir="out"
+err_dir="err"
+style_src="style.css"
+
+mkdir -p "$out_dir" "$err_dir"
+cp "$style_src" "$out_dir/"
+
+pass=0; fail=0
+for f in "$tests_dir"/*.rec; do
+  base=$(basename "$f" .rec)
+  java -jar target/cooklang.jar "$f" > "$out_dir/$base.html" 2> "$err_dir/$base.log"
+  if [ -s "$err_dir/$base.log" ]; then
+    rm -f "$out_dir/$base.html"
+    ((fail++))
+  else
+    rm -f "$err_dir/$base.log"
+    ((pass++))
+  fi
+done
+
+echo "✔️ PASS: $pass"
+echo "❌ FAIL: $fail"
+
+6. Casos de Teste
+
+01_valid.rec – Receita completa válida.
+02_lex_error_no_number.rec – Falta número.
+03_lex_error_invalid_char.rec – Caractere inválido.
+04_sint_error_missing_colon.rec – Faltou ':' após Receita.
+05_sint_error_missing_unit.rec – Falta unidade.
+
+7. Executando os Testes
+
+mvn clean package
+./run_tests.sh
+
+Abra HTML em out/ e consulte logs em err/.

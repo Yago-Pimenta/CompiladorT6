@@ -1,0 +1,23 @@
+body {
+    font-family: Arial, sans-serif;
+    max-width: 800px;
+    margin: auto;
+    padding: 20px;
+    background: #fdfdfd;
+    color: #333;
+  }
+  h1 {
+    color: #d35400;
+    font-size: 2em;
+  }
+  h2 {
+    color: #2980b9;
+    margin-top: 1.5em;
+  }
+  ul, ol {
+    margin-left: 20px;
+  }
+  li {
+    margin-bottom: 0.5em;
+  }
+  

@@ -1,0 +1,9 @@
+#Recomenda usar os scripts dentro da pasta casos-de-testes , mas se quiser executar apenas o template siga os passos
+
+Execute no terminal : 
+mvn clean generate-sources package
+
+e depois 
+java -jar target/cooklang.jar template.rec > template.html
+
+basta executar o .html para finalizar 
