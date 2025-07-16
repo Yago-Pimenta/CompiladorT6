@@ -3,7 +3,13 @@
 
 Este repositório contém a implementação de um **compilador completo para uma linguagem de receitas chamada CookLang**, desenvolvida como parte do Trabalho 6 (T6) da disciplina de Compiladores (UFSCar).
 
-## 📋 Sobre a Linguagem CookLang
+##  Vídeo Demonstrativo 
+
+[Guia tutorial Cooklang](https://drive.google.com/file/d/19p-evxiHgVrmafCqpA-f62_Dahpy1XH4/view?usp=sharing)
+
+
+
+##  Sobre a Linguagem CookLang
 
 CookLang é uma linguagem declarativa criada para descrever receitas de forma estruturada. Seu foco é permitir que ingredientes, quantidades e instruções sejam descritos com regras claras, facilitando tanto a leitura humana quanto o processamento automático , e no final , caso não tenha nenhum erro gerar um .html estilizado para facilitar a visualização.
 
@@ -28,11 +34,11 @@ Importante ressaltar para não dar nenhum erro léxico ou sintático olhar melho
 ---
 ### Primeiramente - baixe ou clone o repositório com todas as suas dependências em seu computador , é necessário um terminal linux e java 
 
-## 🧠 Etapas do Compilador
+## Etapas do Compilador
 
 O compilador é composto por quatro etapas principais:
 
-### 1. Análise Léxica e Sintática ✅
+### 1. Análise Léxica e Sintática 
 - A gramática da linguagem foi definida em ANTLR4.
 - São reconhecidas unidades como  :
 UNIT           : 'g'
@@ -68,7 +74,7 @@ Agora executa o teste
 
 ---
 
-### 2. Análise Semântica ✅
+### 2. Análise Semântica 
 São realizadas **verificações adicionais** que vão além da gramática, como:
 
 - Verificação se a quantidade de ingredientes é maior que zero
@@ -92,7 +98,7 @@ Agora executa o teste
 
 ---
 
-### 3. Geração de Código (HTML) 🧾
+### 3. Geração de Código (HTML) 
 Ao final , caso não apresente erro de compilação , o compilador gera uma **página HTML estilizada**, com:
 - Título da receita
 - Lista de ingredientes
@@ -111,12 +117,7 @@ java -jar target/cooklang.jar template.rec > template.html
 ---
 
 
-
-##  Vídeo Demonstrativo 
-
----
-
-## 📚 Créditos
+## Créditos
 
 Trabalho desenvolvido por:  
 **Yago David Pimenta**  
@@ -125,6 +126,6 @@ Disciplina de Construção de Compiladores
 
 ---
 
-## 📜 Licença
+##  Licença
 
 Sem lisença 
